@@ -1,0 +1,39 @@
+{
+    "name": "ithilbert/module",
+    "type": "libary",
+    "license": "MIT",
+    "description": "Zum erstellen und verwalten von Modulen",
+    "keywords": [
+        "it-hilbert",
+        "laravel",
+        "homepage"
+    ],
+    "authors": [{
+        "name": "Jörg Hilbert",
+        "homepage": "https://www.it-hilbert.com",
+        "role": "Developer"
+    }],
+    "homepage": "https://www.it-hilbert.com",
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "ITHilbert\\Module\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ITHilbert\\Module\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ITHilbert\\Module\\ModuleServiceProvider"
+            ],
+            "aliases": {
+
+            }
+        }
+    }
+}

@@ -1,0 +1,131 @@
+<?php
+
+namespace ITHilbert\modulNameGross\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
+use ITHilbert\modulNameGross\Entities\modulNameGross;
+use ITHilbert\LaravelKit\Helpers\HButton;
+use Yajra\DataTables\Facades\DataTables;
+
+class modulNameGrossController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     * @return Response
+     */
+    public function index(Request $request)
+    {
+        $data = modulNameGross::latest()->where('deleted_at', NULL)->get();
+
+        if ($request->ajax()) {
+            $user = Auth::user(); // find(Auth::id());
+            return Datatables::of($data)
+                    /* ->addIndexColumn() */
+ /*                    ->addColumn('cname', function($row){
+                            return $row->getName();
+                    }) */
+                    ->addColumn('action', function($row) use ($user){
+                        $ausgabe = '<div style="white-space: nowrap;">';
+                            //$ausgabe .= HButton::show(route('permission.show', $row->ID), '');
+                            if($user->hasPermission('site_edit')){
+                                $ausgabe .= HButton::edit(route('site.edit', $row->ID), '');
+                            }
+                            if($user->hasPermission('site_delete')){
+                                $ausgabe .= HButton::delete($row->ID, '');
+                            }
+
+                        $ausgabe .= '</div>';
+
+                        return $ausgabe;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+
+
+        return view('modulName::index');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     * @return Response
+     */
+    public function create()
+    {
+        return view('modulName::create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     * @param Request $request
+     * @return Response
+     */
+    public function store(Request $request)
+    {
+        $modulName = modulNameGross::create($request->all());
+
+        return redirect()->route('modulName')->with([
+            'message'    => 'Die Site wurde erfolgreich angelegt',
+            'alert-type' => 'success',
+        ]);
+    }
+
+    /**
+     * Show the specified resource.
+     * @param int $id
+     * @return Response
+     */
+    public function show($id)
+    {
+        return view('modulName::show');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     * @param int $id
+     * @return Response
+     */
+    public function edit($id)
+    {
+        $modulName = modulNameGross::find($id);
+        return view('modulName::edit')->with(compact('modulName'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     * @param Request $request
+     * @param int $id
+     * @return Response
+     */
+    public function update(Request $request, $id)
+    {
+
+        $modulName = modulNameGross::find($id);
+        $modulName->fill($request->all());
+        $modulName->update();
+
+        return redirect()->route('modulName')->with([
+            'message'    => 'Die modulName wurde erfolgreich angepasst',
+            'alert-type' => 'success',
+        ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     * @param int $id
+     * @return Response
+     */
+    public function delete($id)
+    {
+        $modulName = modulNameGross::find($id);
+        $modulName->delete();
+
+        return redirect()->route('modulName')->with([
+            'message'    => 'Die modulName wurde erfolgreich gelöscht',
+            'alert-type' => 'success',
+        ]);
+    }
+}
