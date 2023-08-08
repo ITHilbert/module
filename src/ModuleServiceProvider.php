@@ -1,11 +1,11 @@
 <?php
 
-namespace ITHilbert\Module;
+namespace Module\Module;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
-use ITHilbert\Module\Commands\Create;
-use ITHilbert\Module\Commands\Mix;
+use Module\Module\Commands\Create;
+use Module\Module\Commands\Mix;
 
 class ModuleServiceProvider extends ServiceProvider
 {

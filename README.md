@@ -11,7 +11,7 @@ composer require ithilbert/module
 ### config/app.php
 Den Punkt Providers um folgenden Eintrag ergänzen:
 ```
-\ITHilbert\Site\SiteServiceProvider::class,
+\ITHilbert\Module\ModuleServiceProvider::class,
 ```
 
 ## Neues Modul erstellen

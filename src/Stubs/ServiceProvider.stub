@@ -1,6 +1,6 @@
 <?php
 
-namespace ITHilbert\modulNameGross;
+namespace Module\modulNameGross;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
@@ -65,7 +65,7 @@ class modulNameGrossServiceProvider extends ServiceProvider
      * @return void
      */
     public function registerMiddleware(){
-        /* $this->app['router']->aliasMiddleware('MiddlewareName' , \ITHilbert\modulNameGross\Http\Middleware\MiddlewareName::class); */
+        /* $this->app['router']->aliasMiddleware('MiddlewareName' , \Module\modulNameGross\Http\Middleware\MiddlewareName::class); */
     }
 
 

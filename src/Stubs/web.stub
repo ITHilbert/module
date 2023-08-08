@@ -1,6 +1,6 @@
 <?php
 
-use ITHilbert\modulNameGross\Controllers\modulNameGrossController;
+use Module\modulNameGross\Controllers\modulNameGrossController;
 use Illuminate\Support\Facades\Route;
 
 /*
