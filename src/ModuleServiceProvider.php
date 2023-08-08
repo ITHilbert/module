@@ -1,6 +1,6 @@
 <?php
 
-namespace Module\Module;
+namespace ITHilbert\Module;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
