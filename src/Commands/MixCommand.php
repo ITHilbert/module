@@ -5,7 +5,7 @@ namespace ITHilbert\Module\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
-class Mix extends Command
+class MixCommand extends Command
 {
     /**
      * The name and signature of the console command.

@@ -3,9 +3,11 @@
 namespace ITHilbert\Module\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
+use ITHilbert\Module\Classes\Stub;
 
-class Create extends Command
+class CreateCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -48,6 +50,9 @@ class Create extends Command
             return;
         }
 
+        //Modulname setzen
+        Cache::put('active_modul', $modulName, now()->addDay());
+
         //Ordner anlegen
         $this->createFolder($modulName);
 
@@ -61,7 +66,7 @@ class Create extends Command
         $this->createController($modulName);
 
         //Routes anlegen
-        $this->createRoutes($modulName);
+        $this->createRoutes();
 
         //Models anlegen
         $this->createModels($modulName);
@@ -75,75 +80,38 @@ class Create extends Command
         //Verzeichnisse überwachen mit npm
         $this->call('module:mix');
 
-
         $this->info("Modul wurde angelegt. Vergessen Sie nicht es in der config/app.php und in der composer.json einzutragen!");
     }
 
     private function createConfig($modulName)
     {
-        // Stub-Datei laden und variablen ersetzen
-        $stub = File::get(__DIR__.'/../Stubs/config.stub');
-        $stub = $this->replaceStub($modulName, $stub);
-
-        //ServiceProvider anlegen
-        $pfad = base_path('module/'.$modulName.'/Config/'.$modulName.'.php');
-        File::put($pfad, $stub);
+        $stub = new Stub('config');
+        $stub->saveAsConfig($modulName);
     }
 
 
     private function createController($modulName)
     {
-        //Modulname mit ersten Buchstaben groß
-        $modulNameGross = ucfirst($modulName);
-
-        // Stub-Datei laden und variablen ersetzen
-        $stub = File::get(__DIR__.'/../Stubs/Controller.stub');
-        $stub = $this->replaceStub($modulName, $stub);
-
-        //ServiceProvider anlegen
-        $pfad = base_path('module/'.$modulName.'/Controllers/'.$modulNameGross.'Controller.php');
-        File::put($pfad, $stub);
+        $stub = new Stub('controller');
+        $stub->saveAsController($modulName);
     }
 
-    private function createRoutes($modulName)
+    private function createRoutes()
     {
-        // Stub-Datei laden und variablen ersetzen
-        $stub = File::get(__DIR__.'/../Stubs/web.stub');
-        $stub = $this->replaceStub($modulName, $stub);
-
-        //ServiceProvider anlegen
-        $pfad = base_path('module/'.$modulName.'/Routes/web.php');
-        File::put($pfad, $stub);
+        $stub = new Stub('web');
+        $stub->saveAsRoute('web');
     }
 
     private function createModels($modulName)
     {
-        //Modulname mit ersten Buchstaben groß
-        $modulNameGross = ucfirst($modulName);
-
-        // Stub-Datei laden und variablen ersetzen
-        $stub = File::get(__DIR__.'/../Stubs/Model.stub');
-        $stub = $this->replaceStub($modulName, $stub);
-
-        //ServiceProvider anlegen
-        $pfad = base_path('module/'.$modulName.'/Models/'.$modulNameGross.'.php');
-        File::put($pfad, $stub);
+        $stub = new Stub('model');
+        $stub->saveAsModel($modulName);
     }
-
-
 
     private function createServiceProvider($modulName)
     {
-        //Modulname mit ersten Buchstaben groß
-        $modulNameGross = ucfirst($modulName);
-
-        // Stub-Datei laden und variablen ersetzen
-        $stub = File::get(__DIR__.'/../Stubs/ServiceProvider.stub');
-        $stub = $this->replaceStub($modulName, $stub);
-
-        //ServiceProvider anlegen
-        $pfad = base_path('module/'.$modulName.'/'.$modulNameGross.'ServiceProvider.php');
-        File::put($pfad, $stub);
+        $stub = new Stub('serviceProvider');
+        $stub->saveAsServiceProvider($modulName);
     }
 
 
@@ -179,21 +147,7 @@ class Create extends Command
         File::makeDirectory($pfadModul .'Routes');
     }
 
-    /**
-     * Ersetzt die Variablen im Stub
-     *
-     * @param [type] $modulName
-     * @param [type] $stub
-     * @return void
-     */
-    private function replaceStub($modulName, $stub){
-        //Modulname mit ersten Buchstaben groß
-        $modulNameGross = ucfirst($modulName);
 
-        $stub = str_replace('modulNameGross', $modulNameGross, $stub);
-        $stub = str_replace('modulName', $modulName, $stub);
-        return $stub;
-    }
 
 
     private function createGitingore($modulName)

@@ -1,0 +1,13 @@
+<?php
+
+namespace Module\modulNameGross\Livewire;
+
+use Livewire\Component;
+
+class DummyName extends Component
+{
+    public function render()
+    {
+        return view('modulName::livewire.dummyName');
+    }
+}

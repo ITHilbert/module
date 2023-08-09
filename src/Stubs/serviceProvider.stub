@@ -23,8 +23,16 @@ class modulNameGrossServiceProvider extends ServiceProvider
         $this->registerRoutes();
         //$this->registerCommands();
         //$this->registerFactories();
+        //$this->registerLivewire();
         $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
     }
+
+    public function registerLivewire(){
+        //Livewire::component('modulName::allgemein', \Module\modulNameGross\Livewire\Allgemein::class);
+        //Livewire::component('modulName::dashboard', \Module\modulNameGross\Livewire\Dashboard::class);
+        //Livewire::component('modulName::zeiten', \Module\modulNameGross\Livewire\Zeiten::class);
+    }
+
 
     /**
      * Register views.

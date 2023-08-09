@@ -16,9 +16,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['web'])->group(function () {
 
-    Route::get('modulName/index', [modulNameGrossController::class, 'index'])->name('index');
-    Route::get('modulName/edit', [modulNameGrossController::class, 'edit'])->name('edit');
-
+    Route::get('modulName',                 [modulNameGrossController::class, 'index'])->name('modulName');
+    Route::get('modulName/index',           [modulNameGrossController::class, 'liste'])->name('modulName.liste');
+    Route::get('modulName/create',          [modulNameGrossController::class, 'create'])->name('modulName.create');
+    Route::get('modulName/store',           [modulNameGrossController::class, 'store'])->name('modulName.store');
+    Route::get('modulName/edit/{id}',       [modulNameGrossController::class, 'edit'])->name('modulName.edit');
+    Route::get('modulName/update/{id}',     [modulNameGrossController::class, 'update'])->name('modulName.update');
 });
 
 
