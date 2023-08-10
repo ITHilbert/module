@@ -5,12 +5,13 @@ namespace ITHilbert\Module\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
+use ITHilbert\Module\Classes\LivewireClassCreater;
 use ITHilbert\Module\Classes\LivewireViewCreater;
 
-class LivewireViewCommand extends Command
+class LivewireModelCommand extends Command
 {
-    protected $signature = 'module:livewireview {viewName} {modelName}';
-    protected $description = 'Erstellt eine View {viewName - z.B. user/index} {modelName - z.B. App\\Models\\User}}';
+    protected $signature = 'module:livewire {viewName} {modelName}';
+    protected $description = 'Erstellt eine neue Livewire View und Komponente {viewName - z.B. user/index} {modelName - z.B. App\\Models\\User}}';
 
     public function __construct()
     {
@@ -34,7 +35,7 @@ class LivewireViewCommand extends Command
             return;
         }
 
-        // Generate the content for your view
+        // view erstellen
         $vc = new LivewireViewCreater($modelName);
         $content = $vc->getForm();
 
@@ -46,7 +47,19 @@ class LivewireViewCommand extends Command
 
         File::put($path, $content);
 
-        $this->info("View created at {$path}");
+        // Class erstellen
+        $lvcc = new LivewireClassCreater($modulName, $viewName, $modelName);
+        $content = $lvcc->getClass();
+
+        // Create the file
+        $path = base_path("/module/{$modulName}/Livewire/" . ucfirst($viewName)."LW.php");
+        if (!File::exists(dirname($path))) {
+            File::makeDirectory(dirname($path), 0777, true, true);
+        }
+
+        File::put($path, $content);
+
+        $this->info("Livewire Komponente wurde erstellt!");
     }
 
 }

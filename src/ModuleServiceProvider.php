@@ -10,9 +10,9 @@ use ITHilbert\Module\Commands\GetCommand;
 use ITHilbert\Module\Commands\ModelCommand;
 use ITHilbert\Module\Commands\ConfigCommand;
 use ITHilbert\Module\Commands\ControllerCommand;
-use ITHilbert\Module\Commands\LivewireCommand;
+//use ITHilbert\Module\Commands\LivewireCommand;
 use ITHilbert\Module\Commands\ViewModelCommand;
-use ITHilbert\Module\Commands\LivewireViewCommand;
+use ITHilbert\Module\Commands\LivewireModelCommand;
 use ITHilbert\Module\Commands\MigrationCommand;
 
 class ModuleServiceProvider extends ServiceProvider
@@ -37,9 +37,9 @@ class ModuleServiceProvider extends ServiceProvider
         $this->commands(ModelCommand::class);
         $this->commands(ControllerCommand::class);
         $this->commands(ConfigCommand::class);
-        $this->commands(LivewireCommand::class);
+        //$this->commands(LivewireCommand::class);
         $this->commands(ViewModelCommand::class);
-        $this->commands(LivewireViewCommand::class);
+        $this->commands(LivewireModelCommand::class);
         $this->commands(MigrationCommand::class);
     }
 

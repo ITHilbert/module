@@ -4,6 +4,7 @@ namespace Module\modulNameGross;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
+use Livewire\Livewire;
 
 class modulNameGrossServiceProvider extends ServiceProvider
 {
@@ -23,7 +24,7 @@ class modulNameGrossServiceProvider extends ServiceProvider
         $this->registerRoutes();
         //$this->registerCommands();
         //$this->registerFactories();
-        //$this->registerLivewire();
+        $this->registerLivewire();
         $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
     }
 
