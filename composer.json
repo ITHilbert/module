@@ -15,7 +15,10 @@
     }],
     "homepage": "https://www.it-hilbert.com",
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "php": "^8.0",
+        "doctrine/dbal": "^2.10"
+    },
     "autoload": {
         "psr-4": {
             "ITHilbert\\Module\\": "src/"

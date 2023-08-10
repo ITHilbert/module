@@ -11,7 +11,9 @@ use ITHilbert\Module\Commands\ModelCommand;
 use ITHilbert\Module\Commands\ConfigCommand;
 use ITHilbert\Module\Commands\ControllerCommand;
 use ITHilbert\Module\Commands\LivewireCommand;
-
+use ITHilbert\Module\Commands\ViewModelCommand;
+use ITHilbert\Module\Commands\LivewireViewCommand;
+use ITHilbert\Module\Commands\MigrationCommand;
 
 class ModuleServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,11 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->registerConfig();
+        $this->registerCommands();
+    }
+
+    public function registerCommands(){
         $this->commands(CreateCommand::class );
         $this->commands(MixCommand::class);
         $this->commands(SetCommand::class);
@@ -31,6 +38,9 @@ class ModuleServiceProvider extends ServiceProvider
         $this->commands(ControllerCommand::class);
         $this->commands(ConfigCommand::class);
         $this->commands(LivewireCommand::class);
+        $this->commands(ViewModelCommand::class);
+        $this->commands(LivewireViewCommand::class);
+        $this->commands(MigrationCommand::class);
     }
 
 
@@ -42,6 +52,18 @@ class ModuleServiceProvider extends ServiceProvider
     public function register()
     {
         //
+    }
+
+    /**
+     * Register config.
+     *
+     * @return void
+     */
+    protected function registerConfig()
+    {
+        $this->publishes([
+            __DIR__ .'/Config/module.php' => config_path('module.php')
+        ]);
     }
 
 

@@ -54,7 +54,9 @@ class Stub{
     }
 
     public function saveAsMigration($fileName){
-        $this->save('Database/Migrations/'.$fileName.'.php');
+        $pfad = 'Database/Migrations/'.date('Y_m_d_His') . '_' . $fileName .'.php';
+        $this->save( $pfad);
+        return $pfad;
     }
 
     public function saveAsSeeders($fileName){
@@ -98,6 +100,12 @@ class Stub{
     public function saveAsLivewireView($fileName){
         $this->save('Resources/views/livewire/'. $fileName.'.blade.php');
     }
+
+
+
+
+
+
 
 
     /**

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Module\modulNameGross\Entities\modulNameGross;
+use Module\modulNameGross\Module\modulNameGross;
 use Module\LaravelKit\Helpers\HButton;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -14,7 +14,7 @@ class modulNameGrossController extends Controller
 {
 
     public function index(){
-        return view('modulName::index')
+        return view('modulName::index');
     }
 
 
