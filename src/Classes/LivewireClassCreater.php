@@ -34,7 +34,7 @@ class LivewireClassCreater{
 
         //Use
         $content .= 'use Livewire\Component;' . "\n";
-        $content .= 'use Illuminate\Support\Facades\Validator;' . "\n";
+        //$content .= 'use Illuminate\Support\Facades\Validator;' . "\n";
         $content .= 'use ' . $this->modelNamespaces . ";\n\n";
 
         //Class
@@ -42,7 +42,7 @@ class LivewireClassCreater{
         $content .= "{\n";
 
         //Properties
-        $content .= "\tprivate $".$this->model.";\n\n";
+        $content .= "\tpublic ". ucfirst($this->model)." $".$this->model.";\n\n";
 
         //Listeners
         $content .= "\tprotected \$listeners = [''];\n\n";

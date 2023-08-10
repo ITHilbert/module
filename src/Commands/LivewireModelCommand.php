@@ -60,6 +60,7 @@ class LivewireModelCommand extends Command
         File::put($path, $content);
 
         $this->info("Livewire Komponente wurde erstellt!");
+        $this->info("ACHTUNG: Nicht vergessen diese im ServiceProvider zu hinterlegen!");
     }
 
 }
