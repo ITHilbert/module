@@ -9,8 +9,8 @@ class Stub{
 
     private string $stub;
     private string $modulName;
-    private string $dummyName;
-    private string $DummyName;
+    private string $dummyName = 'dummyName';
+    private string $DummyName = 'DummyName';
 
 
     public function __construct(string $stubName = null)

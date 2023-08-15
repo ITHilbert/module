@@ -38,7 +38,6 @@ class SetCommand extends Command
         $modulName = strtolower($modulName);
 
         //prüfen ob der ordner existiert
-        dd(base_path('module/'.$modulName));
         if (!File::exists(base_path('module/'.$modulName))) {
             $this->error('Es existiert kein Ordner "'.$modulName.'"!');
             return;
