@@ -90,7 +90,7 @@ class Stub{
             $fileName .= 'ServiceProvider';
         }
 
-        $this->save(ucfirst($fileName).'ServiceProvider.php');
+        $this->save(ucfirst($fileName).'.php');
     }
 
     public function saveAsLivewire($fileName){
