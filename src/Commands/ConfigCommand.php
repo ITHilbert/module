@@ -44,7 +44,7 @@ class ConfigCommand extends Command
 
         //Stub laden
         $stub = new Stub('config');
-        $stub->saveAsModel($name);
+        $stub->saveAsConfig($name);
 
         $this->info('Config: ' . $name . ' wurde erstellt!');
     }

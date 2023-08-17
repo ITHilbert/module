@@ -44,7 +44,7 @@ class ControllerCommand extends Command
 
         //Stub laden
         $stub = new Stub('controller');
-        $stub->saveAsModel($name);
+        $stub->saveAsController($name);
 
         $this->info('Controller: ' . $name . ' wurde erstellt!');
     }
