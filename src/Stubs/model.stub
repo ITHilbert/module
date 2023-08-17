@@ -1,17 +1,17 @@
 <?php
 
-namespace Module\modulNameGross\Models;
+namespace Module\DummyModul\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class modulNameGross extends Model
+class DummyName extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
-    protected $table = 'modulName';
+    protected $table = 'dummyName';
     protected $primaryKey = 'id';
     protected $guarded = ['id'];
     public $timestamps = true;

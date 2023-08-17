@@ -1,6 +1,6 @@
 <?php
 
-namespace Module\modulNameGross\Livewire;
+namespace Module\DummyModul\Livewire;
 
 use Livewire\Component;
 

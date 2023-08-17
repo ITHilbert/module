@@ -1,20 +1,20 @@
 <?php
 
-namespace Module\modulNameGross\Controllers;
+namespace Module\DummyModul\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Module\modulNameGross\Module\modulNameGross;
+use Module\DummyModul\Module\DummyModul;
 use Module\LaravelKit\Helpers\HButton;
 use Yajra\DataTables\Facades\DataTables;
 
-class modulNameGrossController extends Controller
+class DummyModulController extends Controller
 {
 
     public function index(){
-        return view('modulName::index');
+        return view('dummyModul::index');
     }
 
 
@@ -24,7 +24,7 @@ class modulNameGrossController extends Controller
      */
     public function liste(Request $request)
     {
-        $data = modulNameGross::latest()->where('deleted_at', NULL)->get();
+        $data = DummyModul::latest()->where('deleted_at', NULL)->get();
 
         if ($request->ajax()) {
             $user = Auth::user(); // find(Auth::id());
@@ -52,7 +52,7 @@ class modulNameGrossController extends Controller
         }
 
 
-        return view('modulName::liste');
+        return view('dummyModul::liste');
     }
 
     /**
@@ -61,7 +61,7 @@ class modulNameGrossController extends Controller
      */
     public function create()
     {
-        return view('modulName::create');
+        return view('dummyModul::create');
     }
 
     /**
@@ -71,9 +71,9 @@ class modulNameGrossController extends Controller
      */
     public function store(Request $request)
     {
-        $modulName = modulNameGross::create($request->all());
+        $dummyModul = DummyModul::create($request->all());
 
-        return redirect()->route('modulName')->with([
+        return redirect()->route('dummyModul')->with([
             'message'    => 'Die Site wurde erfolgreich angelegt',
             'alert-type' => 'success',
         ]);
@@ -86,7 +86,7 @@ class modulNameGrossController extends Controller
      */
     public function show($id)
     {
-        return view('modulName::show');
+        return view('dummyModul::show');
     }
 
     /**
@@ -96,8 +96,8 @@ class modulNameGrossController extends Controller
      */
     public function edit($id)
     {
-        $modulName = modulNameGross::find($id);
-        return view('modulName::edit')->with(compact('modulName'));
+        $dummyModul = DummyModul::find($id);
+        return view('dummyModul::edit')->with(compact('dummyModul'));
     }
 
     /**
@@ -109,12 +109,12 @@ class modulNameGrossController extends Controller
     public function update(Request $request, $id)
     {
 
-        $modulName = modulNameGross::find($id);
-        $modulName->fill($request->all());
-        $modulName->update();
+        $dummyModul = DummyModul::find($id);
+        $dummyModul->fill($request->all());
+        $dummyModul->update();
 
-        return redirect()->route('modulName')->with([
-            'message'    => 'Die modulName wurde erfolgreich angepasst',
+        return redirect()->route('dummyModul')->with([
+            'message'    => 'Die dummyModul wurde erfolgreich angepasst',
             'alert-type' => 'success',
         ]);
     }
@@ -126,11 +126,11 @@ class modulNameGrossController extends Controller
      */
     public function delete($id)
     {
-        $modulName = modulNameGross::find($id);
-        $modulName->delete();
+        $dummyModul = DummyModul::find($id);
+        $dummyModul->delete();
 
-        return redirect()->route('modulName')->with([
-            'message'    => 'Die modulName wurde erfolgreich gelöscht',
+        return redirect()->route('dummyModul')->with([
+            'message'    => 'Die dummyModul wurde erfolgreich gelöscht',
             'alert-type' => 'success',
         ]);
     }

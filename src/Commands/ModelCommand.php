@@ -44,6 +44,7 @@ class ModelCommand extends Command
 
         //Stub laden
         $stub = new Stub('model');
+        $stub->setDummyName($model);
         $stub->saveAsModel($model);
 
         $this->info('Model: ' . $modulName . ' wurde erstellt!');

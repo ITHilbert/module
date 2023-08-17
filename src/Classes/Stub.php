@@ -8,15 +8,15 @@ use Illuminate\Support\Facades\File;
 class Stub{
 
     private string $stub;
-    private string $modulName;
+    private string $dummyModul;
     private string $dummyName = 'dummyName';
     private string $DummyName = 'DummyName';
 
 
     public function __construct(string $stubName = null)
     {
-        $this->modulName = strtolower(Cache::get('active_modul'));
-        if(!$this->modulName){
+        $this->dummyModul = strtolower(Cache::get('active_modul'));
+        if(!$this->dummyModul){
             throw new \Exception('Es wurde kein Modul ausgewählt');
         }
 
@@ -40,7 +40,7 @@ class Stub{
 
         $this->replaceStub();
 
-        $pfad = base_path('module/'.$this->modulName.'/'.$fileName);
+        $pfad = base_path('module/'.$this->dummyModul.'/'.$fileName);
 
         //Prüfen ob Ordner existiert, sonst anlegen
         if(!File::exists(dirname($pfad))){
@@ -101,13 +101,6 @@ class Stub{
         $this->save('Resources/views/livewire/'. $fileName.'.blade.php');
     }
 
-
-
-
-
-
-
-
     /**
      * Ersetzt die Variablen im Stub
      *
@@ -116,13 +109,12 @@ class Stub{
      * @return void
      */
     private function replaceStub(){
-        //Modulname mit ersten Buchstaben groß
-        $modulName =  $this->modulName;
-        $modulNameGross = ucfirst($modulName);
+        $dummyModul =  $this->dummyModul;
+        $DummyModul = ucfirst($dummyModul);
 
         $stub = $this->stub;
-        $stub = str_replace('modulNameGross', $modulNameGross, $stub);
-        $stub = str_replace('modulName', $modulName, $stub);
+        $stub = str_replace('DummyModul', $DummyModul, $stub);
+        $stub = str_replace('dummyModul', $dummyModul, $stub);
         if($this->dummyName) $stub = str_replace('dummyName', $this->dummyName, $stub);
         if($this->DummyName) $stub = str_replace('DummyName', $this->DummyName, $stub);
 

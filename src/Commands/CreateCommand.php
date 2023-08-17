@@ -105,6 +105,7 @@ class CreateCommand extends Command
     private function createModels($modulName)
     {
         $stub = new Stub('model');
+        $stub->setDummyName($modulName);
         $stub->saveAsModel($modulName);
     }
 

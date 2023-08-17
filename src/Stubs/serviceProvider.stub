@@ -1,12 +1,12 @@
 <?php
 
-namespace Module\modulNameGross;
+namespace Module\DummyModul;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\View\Compilers\BladeCompiler;
-use Livewire\Livewire;
+//use Illuminate\View\Compilers\BladeCompiler;
+//use Livewire\Livewire;
 
-class modulNameGrossServiceProvider extends ServiceProvider
+class DummyModulServiceProvider extends ServiceProvider
 {
 
     /**
@@ -20,7 +20,7 @@ class modulNameGrossServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->registerTranslations();
         $this->registerRoutes();
-        //$this->registerCommands();
+        $this->registerCommands();
         //$this->registerFactories();
         $this->registerLivewire();
         $this->registerMigrations();
@@ -31,9 +31,9 @@ class modulNameGrossServiceProvider extends ServiceProvider
     }
 
     public function registerLivewire(){
-        //Livewire::component('modulName::allgemein', \Module\modulNameGross\Livewire\Allgemein::class);
-        //Livewire::component('modulName::dashboard', \Module\modulNameGross\Livewire\Dashboard::class);
-        //Livewire::component('modulName::zeiten', \Module\modulNameGross\Livewire\Zeiten::class);
+        //Livewire::component('dummyModul::allgemein', \Module\DummyModul\Livewire\Allgemein::class);
+        //Livewire::component('dummyModul::dashboard', \Module\DummyModul\Livewire\Dashboard::class);
+        //Livewire::component('dummyModul::zeiten', \Module\DummyModul\Livewire\Zeiten::class);
     }
 
     /**
@@ -53,7 +53,7 @@ class modulNameGrossServiceProvider extends ServiceProvider
      */
     public function registerViews()
     {
-        $this->loadViewsFrom(__DIR__ .'/Resources/views', 'modulName');
+        $this->loadViewsFrom(__DIR__ .'/Resources/views', 'dummyModul');
     }
 
     /**
@@ -63,7 +63,7 @@ class modulNameGrossServiceProvider extends ServiceProvider
      */
     public function registerTranslations()
     {
-        $this->loadTranslationsFrom(__DIR__ .'/Resources/lang', 'modulName');
+        $this->loadTranslationsFrom(__DIR__ .'/Resources/lang', 'dummyModul');
     }
 
 
@@ -85,7 +85,7 @@ class modulNameGrossServiceProvider extends ServiceProvider
      * @return void
      */
     public function registerMiddleware(){
-        /* $this->app['router']->aliasMiddleware('MiddlewareName' , \Module\modulNameGross\Http\Middleware\MiddlewareName::class); */
+        /* $this->app['router']->aliasMiddleware('MiddlewareName' , \Module\DummyModul\Http\Middleware\MiddlewareName::class); */
     }
 
 
@@ -97,7 +97,7 @@ class modulNameGrossServiceProvider extends ServiceProvider
     public function publishAssets()
     {
         $this->publishes([
-            __DIR__ .'/Resources/assets' => public_path('vendor/modulname'),
+            __DIR__ .'/Resources/assets' => public_path('vendor/dummyModul'),
         ]);
     }
 
@@ -132,7 +132,7 @@ class modulNameGrossServiceProvider extends ServiceProvider
     protected function publishConfig()
     {
         $this->publishes([
-            __DIR__ .'/Config/modulName.php' => config_path('modulName.php')
+            __DIR__ .'/Config/dummyModul.php' => config_path('dummyModul.php')
         ]);
     }
 

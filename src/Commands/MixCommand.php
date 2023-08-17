@@ -52,7 +52,7 @@ class MixCommand extends Command
 
             foreach($modules as $modul) {
                 $mixFileContent .= 'mix.copy("module/' . $modul .'/Config", "config");'."\n";
-                $mixFileContent .= 'mix.copy("module/' . $modul .'/Public", "public");'."\n";
+                $mixFileContent .= 'mix.copy("module/' . $modul .'/Public", "public/module/"' . $modul .');'."\n";
             }
         }
 

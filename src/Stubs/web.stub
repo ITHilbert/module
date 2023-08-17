@@ -1,6 +1,6 @@
 <?php
 
-use Module\modulNameGross\Controllers\modulNameGrossController;
+use Module\DummyModul\Controllers\DummyModulController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,12 +16,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['web'])->group(function () {
 
-    Route::get('modulName',                 [modulNameGrossController::class, 'index'])->name('modulName');
-    Route::get('modulName/index',           [modulNameGrossController::class, 'liste'])->name('modulName.liste');
-    Route::get('modulName/create',          [modulNameGrossController::class, 'create'])->name('modulName.create');
-    Route::get('modulName/store',           [modulNameGrossController::class, 'store'])->name('modulName.store');
-    Route::get('modulName/edit/{id}',       [modulNameGrossController::class, 'edit'])->name('modulName.edit');
-    Route::get('modulName/update/{id}',     [modulNameGrossController::class, 'update'])->name('modulName.update');
+    Route::get('dummyModul',                 [DummyModulController::class, 'index'])->name('dummyModul');
+    Route::get('dummyModul/index',           [DummyModulController::class, 'liste'])->name('dummyModul.liste');
+    Route::get('dummyModul/create',          [DummyModulController::class, 'create'])->name('dummyModul.create');
+    Route::get('dummyModul/store',           [DummyModulController::class, 'store'])->name('dummyModul.store');
+    Route::get('dummyModul/edit/{id}',       [DummyModulController::class, 'edit'])->name('dummyModul.edit');
+    Route::get('dummyModul/update/{id}',     [DummyModulController::class, 'update'])->name('dummyModul.update');
 });
 
 
