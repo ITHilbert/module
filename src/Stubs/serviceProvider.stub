@@ -18,14 +18,16 @@ class modulNameGrossServiceProvider extends ServiceProvider
     {
 
         $this->registerViews();
-        //$this->publishAssets();
-        $this->registerConfig();
         $this->registerTranslations();
         $this->registerRoutes();
         //$this->registerCommands();
         //$this->registerFactories();
         $this->registerLivewire();
-        $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
+        $this->registerMigrations();
+
+        //$this->publishAssets();
+        $this->publishConfig();
+
     }
 
     public function registerLivewire(){
@@ -34,6 +36,15 @@ class modulNameGrossServiceProvider extends ServiceProvider
         //Livewire::component('modulName::zeiten', \Module\modulNameGross\Livewire\Zeiten::class);
     }
 
+    /**
+     * Register Migrations.
+     *
+     * @return void
+     */
+    public function registerMigrations()
+    {
+        $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
+    }
 
     /**
      * Register views.
@@ -114,11 +125,11 @@ class modulNameGrossServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register config.
+     * Publish config.
      *
      * @return void
      */
-    protected function registerConfig()
+    protected function publishConfig()
     {
         $this->publishes([
             __DIR__ .'/Config/modulName.php' => config_path('modulName.php')

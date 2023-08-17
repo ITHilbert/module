@@ -1,6 +1,6 @@
 # Module
 
-Zum erstellen und verwalten von Modulen
+Zum erstellen und verwalten von Laravel Modulen
 
 
 ## Installation
