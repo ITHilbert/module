@@ -1,6 +1,6 @@
 {
     "name": "ithilbert/module",
-    "type": "libary",
+    "type": "library",
     "license": "MIT",
     "description": "Zum erstellen und verwalten von Modulen",
     "keywords": [
