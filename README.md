@@ -4,11 +4,9 @@ Dieses Paket dient zum Erstellen und Verwalten von Modulen in einer Laravel-Appl
 
 ## Installation
 
-1. Füge das Paket zu deiner `composer.json` hinzu:
-```json
-"require": {
-    "ithilbert/module": "dev-main"
-}
+1. Installiere das Paket über Composer:
+```bash
+composer require ithilbert/module
 ```
 
 2. Registriere den ServiceProvider in `config/app.php` (falls Autodiscovery nicht genutzt wird):
