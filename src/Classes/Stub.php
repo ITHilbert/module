@@ -50,17 +50,17 @@ class Stub{
     }
 
     public function saveAsConfig($fileName){
-        $this->save('Config/'.$fileName.'.php');
+        $this->save('config/'.$fileName.'.php');
     }
 
     public function saveAsMigration($fileName){
-        $pfad = 'Database/Migrations/'.date('Y_m_d_His') . '_' . $fileName .'.php';
+        $pfad = 'database/migrations/'.date('Y_m_d_His') . '_' . $fileName .'.php';
         $this->save( $pfad);
         return $pfad;
     }
 
     public function saveAsSeeders($fileName){
-        $this->save('Database/Seeders/'.$fileName.'.php');
+        $this->save('database/seeders/'.$fileName.'.php');
     }
 
     public function saveAsController($fileName){
@@ -69,19 +69,19 @@ class Stub{
             $fileName .= 'Controller';
         }
 
-        $this->save('Controllers/'. ucfirst($fileName).'.php');
+        $this->save('controllers/'. ucfirst($fileName).'.php');
     }
 
     public function saveAsModel($fileName){
-        $this->save('Models/'. ucfirst($fileName).'.php');
+        $this->save('models/'. ucfirst($fileName).'.php');
     }
 
     public function saveAsView($fileName){
-        $this->save('Ressources/views/'. $fileName.'.blade.php');
+        $this->save('resources/views/'. $fileName.'.blade.php');
     }
 
     public function saveAsRoute($fileName){
-        $this->save('Routes/'.$fileName.'.php');
+        $this->save('routes/'.$fileName.'.php');
     }
 
     public function saveAsServiceProvider($fileName){
@@ -94,11 +94,11 @@ class Stub{
     }
 
     public function saveAsLivewire($fileName){
-        $this->save('Livewire/'. ucfirst($fileName).'.php');
+        $this->save('livewire/'. ucfirst($fileName).'.php');
     }
 
     public function saveAsLivewireView($fileName){
-        $this->save('Resources/views/livewire/'. $fileName.'.blade.php');
+        $this->save('resources/views/livewire/'. $fileName.'.blade.php');
     }
 
     /**

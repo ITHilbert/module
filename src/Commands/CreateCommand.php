@@ -124,28 +124,28 @@ class CreateCommand extends Command
         File::makeDirectory($pfadModul);
 
         //Config
-        File::makeDirectory($pfadModul .'Config');
+        File::makeDirectory($pfadModul .'config');
         //Controller
-        File::makeDirectory($pfadModul .'Controllers');
+        File::makeDirectory($pfadModul .'controllers');
         //Database
-        File::makeDirectory($pfadModul .'Database');
-        File::makeDirectory($pfadModul .'Database/Migrations');
-        File::makeDirectory($pfadModul .'Database/Seeders');
+        File::makeDirectory($pfadModul .'database');
+        File::makeDirectory($pfadModul .'database/migrations');
+        File::makeDirectory($pfadModul .'database/seeders');
         //Models
-        File::makeDirectory($pfadModul .'Models');
+        File::makeDirectory($pfadModul .'models');
         //Public
-        File::makeDirectory($pfadModul .'Public');
-        File::makeDirectory($pfadModul .'Public/css');
-        File::makeDirectory($pfadModul .'Public/js');
-        File::makeDirectory($pfadModul .'Public/images');
+        File::makeDirectory($pfadModul .'public');
+        File::makeDirectory($pfadModul .'public/css');
+        File::makeDirectory($pfadModul .'public/js');
+        File::makeDirectory($pfadModul .'public/images');
         //Resources
-        File::makeDirectory($pfadModul .'Resources');
-        File::makeDirectory($pfadModul .'Resources/lang');
-        File::makeDirectory($pfadModul .'Resources/lang/de');
-        File::makeDirectory($pfadModul .'Resources/lang/en');
-        File::makeDirectory($pfadModul .'Resources/views');
+        File::makeDirectory($pfadModul .'resources');
+        File::makeDirectory($pfadModul .'resources/lang');
+        File::makeDirectory($pfadModul .'resources/lang/de');
+        File::makeDirectory($pfadModul .'resources/lang/en');
+        File::makeDirectory($pfadModul .'resources/views');
         //Routes
-        File::makeDirectory($pfadModul .'Routes');
+        File::makeDirectory($pfadModul .'routes');
     }
 
 
@@ -154,16 +154,16 @@ class CreateCommand extends Command
     private function createGitingore($modulName)
     {
         //Database
-        file_put_contents(base_path('module/'.$modulName.'/Database/Migrations/.gitignore'),'');
-        file_put_contents(base_path('module/'.$modulName.'/Database/Seeders/.gitignore'),'');
+        file_put_contents(base_path('module/'.$modulName.'/database/migrations/.gitignore'),'');
+        file_put_contents(base_path('module/'.$modulName.'/database/seeders/.gitignore'),'');
         //Public
-        file_put_contents(base_path('module/'.$modulName.'/Public/css/.gitignore'),'');
-        file_put_contents(base_path('module/'.$modulName.'/Public/js/.gitignore'),'');
-        file_put_contents(base_path('module/'.$modulName.'/Public/images/.gitignore'),'');
+        file_put_contents(base_path('module/'.$modulName.'/public/css/.gitignore'),'');
+        file_put_contents(base_path('module/'.$modulName.'/public/js/.gitignore'),'');
+        file_put_contents(base_path('module/'.$modulName.'/public/images/.gitignore'),'');
         //Resources
-        file_put_contents(base_path('module/'.$modulName.'/Resources/lang/de/.gitignore'),'');
-        file_put_contents(base_path('module/'.$modulName.'/Resources/lang/en/.gitignore'),'');
-        file_put_contents(base_path('module/'.$modulName.'/Resources/views/.gitignore'),'');
+        file_put_contents(base_path('module/'.$modulName.'/resources/lang/de/.gitignore'),'');
+        file_put_contents(base_path('module/'.$modulName.'/resources/lang/en/.gitignore'),'');
+        file_put_contents(base_path('module/'.$modulName.'/resources/views/.gitignore'),'');
     }
 
 }
