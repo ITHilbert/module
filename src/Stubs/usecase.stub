@@ -1,0 +1,22 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Module\DummyModul\Application\UseCases;
+
+final class DummyNameAnlegen
+{
+    /**
+     * Erstellt einen neuen DummyName-Datensatz.
+     *
+     * Transaktionsgrenze liegt in diesem UseCase.
+     * Externe Dienste (Mail, Storage etc.) IMMER über Port/Adapter einbinden —
+     * niemals direkt new GuzzleClient() oder ähnliches hier.
+     *
+     * @throws \Module\DummyModul\Domain\Exceptions\DummyNameException
+     */
+    public function execute(): void
+    {
+        // TODO: Implementierung eintragen
+    }
+}

@@ -1,187 +1,59 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Module\DummyModul;
 
 use Illuminate\Support\ServiceProvider;
-//use Illuminate\View\Compilers\BladeCompiler;
-//use Livewire\Livewire;
 
 class DummyModulServiceProvider extends ServiceProvider
 {
-
-    /**
-     * Boot the application events.
-     *
-     * @return void
-     */
-    public function boot()
+    public function boot(): void
     {
-
+        $this->registerMigrations();
         $this->registerViews();
         $this->registerTranslations();
         $this->registerRoutes();
-        $this->registerCommands();
-        //$this->registerFactories();
-        $this->registerLivewire();
-        $this->registerMigrations();
-
-        //$this->publishAssets();
         $this->publishConfig();
-
     }
 
-    public function registerLivewire(){
-        //Livewire::component('dummyModul::allgemein', \Module\DummyModul\Livewire\Allgemein::class);
-        //Livewire::component('dummyModul::dashboard', \Module\DummyModul\Livewire\Dashboard::class);
-        //Livewire::component('dummyModul::zeiten', \Module\DummyModul\Livewire\Zeiten::class);
-    }
-
-    /**
-     * Register Migrations.
-     *
-     * @return void
-     */
-    public function registerMigrations()
+    public function register(): void
     {
-        $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
+        //
     }
 
-    /**
-     * Register views.
-     *
-     * @return void
-     */
-    public function registerViews()
+    protected function registerMigrations(): void
     {
-        $this->loadViewsFrom(__DIR__ .'/Resources/views', 'dummyModul');
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
     }
 
-    /**
-     * Register translations.
-     *
-     * @return void
-     */
-    public function registerTranslations()
+    protected function registerViews(): void
     {
-        $this->loadTranslationsFrom(__DIR__ .'/Resources/lang', 'dummyModul');
+        $this->loadViewsFrom(__DIR__ . '/resources/views', 'dummyModul');
     }
 
-
-
-    /**
-     * Register commands.
-     *
-     * @return void
-     */
-    protected function registerCommands()
+    protected function registerTranslations(): void
     {
-        /* $this->commands( Command::class ); */
-
+        $this->loadTranslationsFrom(__DIR__ . '/resources/lang', 'dummyModul');
     }
 
-    /**
-     * Middlewares
-     *
-     * @return void
-     */
-    public function registerMiddleware(){
-        /* $this->app['router']->aliasMiddleware('MiddlewareName' , \Module\DummyModul\Http\Middleware\MiddlewareName::class); */
+    protected function registerRoutes(): void
+    {
+        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
     }
 
-
-    /**
-     * Assets kopieren
-     *
-     * @return void
-     */
-    public function publishAssets()
+    protected function publishConfig(): void
     {
         $this->publishes([
-            __DIR__ .'/Resources/assets' => public_path('vendor/dummyModul'),
+            __DIR__ . '/config/dummyModul.php' => config_path('dummyModul.php'),
         ]);
     }
 
-
     /**
-     * Register Routes.
-     *
-     * @return void
+     * @return array<int, class-string>
      */
-    protected function registerRoutes()
-    {
-        $this->loadRoutesFrom(__DIR__ . '/Routes/web.php');
-    }
-
-
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    public function register()
-    {
-       /*  $this->app->register(RouteServiceProvider::class); */
-       /* $this->registerBladeExtensions(); */
-    }
-
-    /**
-     * Publish config.
-     *
-     * @return void
-     */
-    protected function publishConfig()
-    {
-        $this->publishes([
-            __DIR__ .'/Config/dummyModul.php' => config_path('dummyModul.php')
-        ]);
-    }
-
-
-
-
-
-    /**
-     * Register an additional directory of factories.
-     *
-     * @return void
-     */
-    public function registerFactories()
-    {
-        /* if (! app()->environment('production') && $this->app->runningInConsole()) {
-            app(Factory::class)->load(module_path($this->moduleName, 'Database/factories'));
-        } */
-    }
-
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
+    public function provides(): array
     {
         return [];
-    }
-
-
-    /**
-     * Eigende Blade function (Directive)
-     *
-     * @return void
-     */
-    protected function registerBladeExtensions()
-    {
-        /* $this->app->afterResolving('blade.compiler', function (BladeCompiler $bladeCompiler) {
-
-            $bladeCompiler->directive('hasRole', function ($arguments) {
-                list($role, $guard) = explode(',', $arguments.',');
-
-                return "<?php if(auth({$guard})->check() && auth({$guard})->user()->hasRole({$role})): ?>";
-            });
-            $bladeCompiler->directive('endhasRole', function () {
-                return '<?php endif; ?>';
-            });
-
-        }); */
     }
 }

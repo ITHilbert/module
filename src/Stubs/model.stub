@@ -1,18 +1,39 @@
 <?php
 
-namespace Module\DummyModul\Models;
+declare(strict_types=1);
+
+namespace Module\DummyModul\Domain\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class DummyName extends Model
+final class DummyName extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
-    protected $table = 'dummyName';
+    protected $table = 'dummyNames';
+
     protected $primaryKey = 'id';
-    protected $guarded = ['id'];
+
     public $timestamps = true;
+
+    /** @var list<string> */
+    protected $fillable = [
+        // Felder hier eintragen
+    ];
+
+    /**
+     * @var array<string, string>
+     *
+     * Beispiel-Casts — Enum-Casts so ergänzen:
+     * 'status' => \Module\DummyModul\Domain\Enums\DummyNameStatus::class,
+     */
+    protected function casts(): array
+    {
+        return [
+            // 'status' => \Module\DummyModul\Domain\Enums\DummyNameStatus::class,
+        ];
+    }
 }

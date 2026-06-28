@@ -1,137 +1,63 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Module\DummyModul\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
-use Module\DummyModul\Module\DummyModul;
-use Module\LaravelKit\Helpers\HButton;
-use Yajra\DataTables\Facades\DataTables;
+use Illuminate\View\View;
+use Module\DummyModul\Application\UseCases\DummyNameAnlegen;
+use Module\DummyModul\Requests\StoreDummyNameRequest;
+use Module\DummyModul\Requests\UpdateDummyNameRequest;
 
-class DummyModulController extends Controller
+final class DummyModulController extends Controller
 {
+    public function __construct(
+        private readonly DummyNameAnlegen $dummyNameAnlegen,
+    ) {}
 
-    public function index(){
+    public function index(): View
+    {
         return view('dummyModul::index');
     }
 
-
-    /**
-     * Display a listing of the resource.
-     * @return Response
-     */
-    public function liste(Request $request)
-    {
-        $data = DummyModul::latest()->where('deleted_at', NULL)->get();
-
-        if ($request->ajax()) {
-            $user = Auth::user(); // find(Auth::id());
-            return Datatables::of($data)
-                    /* ->addIndexColumn() */
- /*                    ->addColumn('cname', function($row){
-                            return $row->getName();
-                    }) */
-                    ->addColumn('action', function($row) use ($user){
-                        $ausgabe = '<div style="white-space: nowrap;">';
-                            //$ausgabe .= HButton::show(route('permission.show', $row->ID), '');
-                            if($user->hasPermission('site_edit')){
-                                $ausgabe .= HButton::edit(route('site.edit', $row->ID), '');
-                            }
-                            if($user->hasPermission('site_delete')){
-                                $ausgabe .= HButton::delete($row->ID, '');
-                            }
-
-                        $ausgabe .= '</div>';
-
-                        return $ausgabe;
-                    })
-                    ->rawColumns(['action'])
-                    ->make(true);
-        }
-
-
-        return view('dummyModul::liste');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     * @return Response
-     */
-    public function create()
+    public function create(): View
     {
         return view('dummyModul::create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Response
-     */
-    public function store(Request $request)
+    public function store(StoreDummyNameRequest $request): RedirectResponse
     {
-        $dummyModul = DummyModul::create($request->all());
+        $this->dummyNameAnlegen->execute();
 
-        return redirect()->route('dummyModul')->with([
-            'message'    => 'Die Site wurde erfolgreich angelegt',
-            'alert-type' => 'success',
-        ]);
+        return redirect()->route('dummyModul.index')
+            ->with('success', 'Eintrag erfolgreich angelegt.');
     }
 
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Response
-     */
-    public function show($id)
+    public function show(int $id): View
     {
-        return view('dummyModul::show');
+        return view('dummyModul::show', compact('id'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Response
-     */
-    public function edit($id)
+    public function edit(int $id): View
     {
-        $dummyModul = DummyModul::find($id);
-        return view('dummyModul::edit')->with(compact('dummyModul'));
+        return view('dummyModul::edit', compact('id'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Response
-     */
-    public function update(Request $request, $id)
+    public function update(UpdateDummyNameRequest $request, int $id): RedirectResponse
     {
+        // TODO: UpdateDummyName UseCase einbinden
 
-        $dummyModul = DummyModul::find($id);
-        $dummyModul->fill($request->all());
-        $dummyModul->update();
-
-        return redirect()->route('dummyModul')->with([
-            'message'    => 'Die dummyModul wurde erfolgreich angepasst',
-            'alert-type' => 'success',
-        ]);
+        return redirect()->route('dummyModul.index')
+            ->with('success', 'Eintrag erfolgreich aktualisiert.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Response
-     */
-    public function delete($id)
+    public function destroy(int $id): RedirectResponse
     {
-        $dummyModul = DummyModul::find($id);
-        $dummyModul->delete();
+        // TODO: DeleteDummyName UseCase einbinden
 
-        return redirect()->route('dummyModul')->with([
-            'message'    => 'Die dummyModul wurde erfolgreich gelöscht',
-            'alert-type' => 'success',
-        ]);
+        return redirect()->route('dummyModul.index')
+            ->with('success', 'Eintrag erfolgreich gelöscht.');
     }
 }

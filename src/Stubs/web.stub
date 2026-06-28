@@ -1,27 +1,10 @@
 <?php
 
-use Module\DummyModul\Controllers\DummyModulController;
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\Route;
+use Module\DummyModul\Controllers\DummyModulController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-Route::middleware(['web'])->group(function () {
-
-    Route::get('dummyModul',                 [DummyModulController::class, 'index'])->name('dummyModul');
-    Route::get('dummyModul/index',           [DummyModulController::class, 'liste'])->name('dummyModul.liste');
-    Route::get('dummyModul/create',          [DummyModulController::class, 'create'])->name('dummyModul.create');
-    Route::get('dummyModul/store',           [DummyModulController::class, 'store'])->name('dummyModul.store');
-    Route::get('dummyModul/edit/{id}',       [DummyModulController::class, 'edit'])->name('dummyModul.edit');
-    Route::get('dummyModul/update/{id}',     [DummyModulController::class, 'update'])->name('dummyModul.update');
+Route::middleware(['web', 'auth'])->group(function (): void {
+    Route::resource('dummyModul', DummyModulController::class);
 });
-
-

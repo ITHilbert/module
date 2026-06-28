@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ITHilbert\Module\Commands;
 
 use Illuminate\Console\Command;
@@ -9,161 +11,170 @@ use ITHilbert\Module\Classes\Stub;
 
 class CreateCommand extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
+    /** @var string */
     protected $signature = 'module:create {modulName}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Erstellt ein neues Modul';
+    /** @var string */
+    protected $description = 'Erstellt ein neues Modul mit Clean-Architecture-Schichten';
 
-    /**
-     * Execute the console command.
-     */
-    public function handle()
+    public function handle(): void
     {
         $modulName = $this->argument('modulName') ?? '';
-        //prüfen ob $moduleName leer ist
-        if ($modulName == '') {
+
+        if ($modulName === '') {
             $this->error('Es wurde kein Modulname angegeben!');
+
             return;
         }
 
-        //modulname in kleinbuchstaben umwandeln
         $modulName = strtolower($modulName);
 
-
-        //prüfen ob der ordner "module" existiert, sonst anlegen
-        if (!File::exists(base_path('module'))) {
+        if (! File::exists(base_path('module'))) {
             File::makeDirectory(base_path('module'));
         }
 
-        //prüfen ob es bereits ein modul mit dem Namen gibt
-        if (File::exists(base_path('module/'.$modulName))) {
-            $this->error('Es existiert bereits ein Modul mit dem Namen '.$modulName.'!');
+        if (File::exists(base_path('module/' . $modulName))) {
+            $this->error('Es existiert bereits ein Modul mit dem Namen ' . $modulName . '!');
+
             return;
         }
 
-        //Modulname setzen
         Cache::put('active_modul', $modulName, now()->addDay());
 
-        //Ordner anlegen
         $this->createFolder($modulName);
-
-        //ServiceProvider anlegen
         $this->createServiceProvider($modulName);
-
-        //Config anlegen
         $this->createConfig($modulName);
-
-        //Controller anlegen
         $this->createController($modulName);
-
-        //Routes anlegen
         $this->createRoutes();
-
-        //Models anlegen
         $this->createModels($modulName);
+        $this->createExampleUseCase($modulName);
+        $this->createRequests($modulName);
+        $this->createGitkeep($modulName);
 
-        //Routes anlegen
-        $this->createRoutes($modulName);
-
-        //Gitingore anlegen
-        $this->createGitingore($modulName);
-
-        //Verzeichnisse überwachen mit npm
-        $this->call('module:mix');
-
-        $this->info("Modul wurde angelegt. Vergessen Sie nicht es in der config/app.php und in der composer.json einzutragen!");
+        $this->info('Modul "' . $modulName . '" wurde angelegt.');
+        $this->info('Vergessen Sie nicht, es in der config/app.php und in der composer.json einzutragen!');
     }
 
-    private function createConfig($modulName)
+    private function createConfig(string $modulName): void
     {
         $stub = new Stub('config');
         $stub->saveAsConfig($modulName);
     }
 
-
-    private function createController($modulName)
+    private function createController(string $modulName): void
     {
         $stub = new Stub('controller');
+        $stub->setDummyName($modulName);
         $stub->saveAsController($modulName);
     }
 
-    private function createRoutes()
+    private function createRoutes(): void
     {
         $stub = new Stub('web');
         $stub->saveAsRoute('web');
     }
 
-    private function createModels($modulName)
+    private function createModels(string $modulName): void
     {
         $stub = new Stub('model');
         $stub->setDummyName($modulName);
         $stub->saveAsModel($modulName);
     }
 
-    private function createServiceProvider($modulName)
+    private function createExampleUseCase(string $modulName): void
+    {
+        $stub = new Stub('usecase');
+        $stub->setDummyName($modulName);
+        // Dateiname: <ModulName>Anlegen.php  z.B. KundeAnlegen.php
+        $fileName = ucfirst($modulName) . 'Anlegen.php';
+        $stub->saveAsUseCase($fileName);
+    }
+
+    private function createRequests(string $modulName): void
+    {
+        // Store<ModulName>Request und Update<ModulName>Request generieren
+        // saveAsRequest() lädt den Stub intern neu — kein geteilter Zustand zwischen den Aufrufen
+        $stub = new Stub;
+        $stub->setDummyName($modulName);
+        $stub->saveAsRequest('Store', $modulName);
+
+        $stub->saveAsRequest('Update', $modulName);
+    }
+
+    private function createServiceProvider(string $modulName): void
     {
         $stub = new Stub('serviceProvider');
         $stub->saveAsServiceProvider($modulName);
     }
 
-
-    private function createFolder($modulName)
+    private function createFolder(string $modulName): void
     {
-        $pfadModul = base_path('module/'.$modulName .'/');
+        $base = base_path('module/' . $modulName . '/');
 
-        //ordner für das modul anlegen
-        File::makeDirectory($pfadModul);
+        File::makeDirectory($base);
 
-        //Config
-        File::makeDirectory($pfadModul .'config');
-        //Controller
-        File::makeDirectory($pfadModul .'controllers');
-        //Database
-        File::makeDirectory($pfadModul .'database');
-        File::makeDirectory($pfadModul .'database/migrations');
-        File::makeDirectory($pfadModul .'database/seeders');
-        //Models
-        File::makeDirectory($pfadModul .'models');
-        //Public
-        File::makeDirectory($pfadModul .'public');
-        File::makeDirectory($pfadModul .'public/css');
-        File::makeDirectory($pfadModul .'public/js');
-        File::makeDirectory($pfadModul .'public/images');
-        //Resources
-        File::makeDirectory($pfadModul .'resources');
-        File::makeDirectory($pfadModul .'resources/lang');
-        File::makeDirectory($pfadModul .'resources/lang/de');
-        File::makeDirectory($pfadModul .'resources/lang/en');
-        File::makeDirectory($pfadModul .'resources/views');
-        //Routes
-        File::makeDirectory($pfadModul .'routes');
+        // Bestehende MVC-Ordner
+        File::makeDirectory($base . 'config');
+        File::makeDirectory($base . 'controllers');
+        File::makeDirectory($base . 'Requests');
+        File::makeDirectory($base . 'database');
+        File::makeDirectory($base . 'database/migrations');
+        File::makeDirectory($base . 'database/seeders');
+        File::makeDirectory($base . 'public');
+        File::makeDirectory($base . 'public/css');
+        File::makeDirectory($base . 'public/js');
+        File::makeDirectory($base . 'public/images');
+        File::makeDirectory($base . 'resources');
+        File::makeDirectory($base . 'resources/lang');
+        File::makeDirectory($base . 'resources/lang/de');
+        File::makeDirectory($base . 'resources/lang/en');
+        File::makeDirectory($base . 'resources/views');
+        File::makeDirectory($base . 'routes');
+
+        // Clean-Architecture-Schichten (B22)
+        File::makeDirectory($base . 'Domain');
+        File::makeDirectory($base . 'Domain/Models');
+        File::makeDirectory($base . 'Domain/Enums');
+        File::makeDirectory($base . 'Domain/ValueObjects');
+        File::makeDirectory($base . 'Domain/Events');
+        File::makeDirectory($base . 'Domain/Exceptions');
+
+        File::makeDirectory($base . 'Application');
+        File::makeDirectory($base . 'Application/UseCases');
+        File::makeDirectory($base . 'Application/Ports');
+        File::makeDirectory($base . 'Application/DTOs');
+
+        File::makeDirectory($base . 'Infrastructure');
+        File::makeDirectory($base . 'Infrastructure/Adapters');
+        File::makeDirectory($base . 'Infrastructure/Repositories');
     }
 
-
-
-
-    private function createGitingore($modulName)
+    private function createGitkeep(string $modulName): void
     {
-        //Database
-        file_put_contents(base_path('module/'.$modulName.'/database/migrations/.gitignore'),'');
-        file_put_contents(base_path('module/'.$modulName.'/database/seeders/.gitignore'),'');
-        //Public
-        file_put_contents(base_path('module/'.$modulName.'/public/css/.gitignore'),'');
-        file_put_contents(base_path('module/'.$modulName.'/public/js/.gitignore'),'');
-        file_put_contents(base_path('module/'.$modulName.'/public/images/.gitignore'),'');
-        //Resources
-        file_put_contents(base_path('module/'.$modulName.'/resources/lang/de/.gitignore'),'');
-        file_put_contents(base_path('module/'.$modulName.'/resources/lang/en/.gitignore'),'');
-        file_put_contents(base_path('module/'.$modulName.'/resources/views/.gitignore'),'');
-    }
+        $base = base_path('module/' . $modulName . '/');
 
+        // Leere Schicht-Ordner mit .gitkeep versehen
+        $gitkeepDirs = [
+            'database/migrations',
+            'database/seeders',
+            'public/css',
+            'public/js',
+            'public/images',
+            'resources/lang/de',
+            'resources/lang/en',
+            'resources/views',
+            'Domain/Enums',
+            'Domain/ValueObjects',
+            'Domain/Events',
+            'Domain/Exceptions',
+            'Application/Ports',
+            'Application/DTOs',
+            'Infrastructure/Adapters',
+            'Infrastructure/Repositories',
+        ];
+
+        foreach ($gitkeepDirs as $dir) {
+            File::put($base . $dir . '/.gitkeep', '');
+        }
+    }
 }
