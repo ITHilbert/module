@@ -6,14 +6,14 @@ namespace Module\DummyModul\Domain\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 final class DummyName extends Model
 {
     use HasFactory;
-    use SoftDeletes;
 
-    protected $table = 'dummyNames';
+    // SoftDeletes nur bei fachlichem Bedarf — dann zusätzlich $table->softDeletes() in der Migration.
+
+    protected $table = 'dummyNames'; // Plural prüfen: Laravel pluralisiert englisch (deutsch z. B. 'rechnungen')
 
     protected $primaryKey = 'id';
 
@@ -25,9 +25,9 @@ final class DummyName extends Model
     ];
 
     /**
-     * @var array<string, string>
+     * @return array<string, string>
      *
-     * Beispiel-Casts — Enum-Casts so ergänzen:
+     * Enum-Casts so ergänzen:
      * 'status' => \Module\DummyModul\Domain\Enums\DummyNameStatus::class,
      */
     protected function casts(): array

@@ -78,7 +78,7 @@ class Stub
             $fileName .= 'Controller';
         }
 
-        $this->save('controllers/' . ucfirst($fileName) . '.php');
+        $this->save('Controllers/' . ucfirst($fileName) . '.php');
     }
 
     /**
@@ -142,7 +142,7 @@ class Stub
 
     public function saveAsLivewire(string $fileName): void
     {
-        $this->save('livewire/' . ucfirst($fileName) . '.php');
+        $this->save('Livewire/' . ucfirst($fileName) . '.php');
     }
 
     public function saveAsLivewireView(string $fileName): void

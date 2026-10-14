@@ -52,7 +52,9 @@ class CreateCommand extends Command
         $this->createGitkeep($modulName);
 
         $this->info('Modul "' . $modulName . '" wurde angelegt.');
-        $this->info('Vergessen Sie nicht, es in der config/app.php und in der composer.json einzutragen!');
+        $namespace = ucfirst($modulName);
+        $this->info('Noch eintragen — composer.json (autoload.psr-4): "Module\\\\' . $namespace . '\\\\": "module/' . $modulName . '/", danach composer dump-autoload');
+        $this->info('und bootstrap/providers.php: Module\\' . $namespace . '\\' . $namespace . 'ServiceProvider::class');
     }
 
     private function createConfig(string $modulName): void
@@ -115,7 +117,7 @@ class CreateCommand extends Command
 
         // Bestehende MVC-Ordner
         File::makeDirectory($base . 'config');
-        File::makeDirectory($base . 'controllers');
+        File::makeDirectory($base . 'Controllers');
         File::makeDirectory($base . 'Requests');
         File::makeDirectory($base . 'database');
         File::makeDirectory($base . 'database/migrations');

@@ -10,10 +10,11 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('dummyNames', function (Blueprint $table): void {
+        Schema::create('dummyNames', function (Blueprint $table): void { // Plural prüfen, muss zu $table im Model passen
             $table->id();
             // Felder hier eintragen
             $table->timestamps();
+            // $table->softDeletes(); — nur zusammen mit SoftDeletes im Model
         });
     }
 
