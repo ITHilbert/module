@@ -42,8 +42,8 @@ class LivewireViewCreater{
             $content .= "\t\t\t<div class=\"".config('module.col_label_classes')."\">\n";
 
             //Label
-            if(config('module.label') != ''){
-                $content .= "\t\t\t\t<label for=\"{$name}\" class=\"".config('module.label')."\">{$label}</label>\n";
+            if(config('module.label_classes') != ''){
+                $content .= "\t\t\t\t<label for=\"{$name}\" class=\"".config('module.label_classes')."\">{$label}</label>\n";
             }else{
                 $content .= "\t\t\t\t<label for=\"{$name}\">{$label}</label>\n";
             }
