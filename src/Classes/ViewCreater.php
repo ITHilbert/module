@@ -2,8 +2,6 @@
 
 namespace ITHilbert\Module\Classes;
 
-use Illuminate\Support\Facades\Schema;
-
 class ViewCreater{
 
     private string $model;
@@ -11,12 +9,7 @@ class ViewCreater{
 
     public function __construct(string $modelName)
     {
-        $fields = Schema::getColumnListing((new $modelName)->getTable());
-        $types = [];
-        foreach ($fields as $field) {
-            $types[$field] = Schema::getColumnType((new $modelName)->getTable(), $field);
-        }
-        $this->types = $types;
+        $this->types = Feldart::typenFuerTabelle((new $modelName)->getTable());
         $this->model = strtolower(class_basename($modelName));
     }
 
@@ -118,41 +111,15 @@ class ViewCreater{
     }
 
     public function getInput(string $name, string $type){
-        switch ($type) {
-            case 'id':
-                return $this->getInputId($name);
-                break;
-            case 'bigint':
-                return $this->getInputNumber($name);
-                break;
-            case 'integer':
-                return $this->getInputNumber($name);
-                break;
-            case 'string':
-                return $this->getInputText($name);
-                break;
-            case 'text':
-                return $this->getInputText($name);
-                break;
-            case 'date':
-                return $this->getInputDate($name);
-                break;
-            case 'datetime':
-                return $this->getInputDatetime($name);
-                break;
-            case 'boolean':
-                return $this->getInputBoolean($name);
-                break;
-            case 'decimal':
-                return $this->getInputEuro($name);
-                break;
-            case 'euro':
-                return $this->getInputEuro($name);
-                break;
-            default:
-                return $this->getInputText($name);
-                break;
-        }
+        return match (Feldart::fuerTyp($type)) {
+            Feldart::Id => $this->getInputId($name),
+            Feldart::Zahl => $this->getInputNumber($name),
+            Feldart::Datum => $this->getInputDate($name),
+            Feldart::Datumzeit => $this->getInputDatetime($name),
+            Feldart::Boolean => $this->getInputBoolean($name),
+            Feldart::Euro => $this->getInputEuro($name),
+            Feldart::Text => $this->getInputText($name),
+        };
     }
 
     public function getInputId(string $name){

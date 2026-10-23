@@ -19,10 +19,11 @@ class Stub
 
     public function __construct(?string $stubName = null)
     {
-        $this->dummyModul = strtolower(Cache::get('active_modul'));
-        if (! $this->dummyModul) {
+        $modul = Cache::get('active_modul');
+        if (! is_string($modul) || $modul === '') {
             throw new \RuntimeException('Es wurde kein Modul ausgewählt');
         }
+        $this->dummyModul = strtolower($modul);
 
         if ($stubName) {
             $this->load($stubName);
@@ -38,14 +39,14 @@ class Stub
 
     public function load(string $stubName): void
     {
-        $this->stub = File::get(__DIR__ . '/../Stubs/' . $stubName . '.stub');
+        $this->stub = File::get(__DIR__.'/../Stubs/'.$stubName.'.stub');
     }
 
     private function save(string $fileName): void
     {
         $this->replaceStub();
 
-        $pfad = base_path('module/' . $this->dummyModul . '/' . $fileName);
+        $pfad = base_path('module/'.$this->dummyModul.'/'.$fileName);
 
         if (! File::exists(dirname($pfad))) {
             File::makeDirectory(dirname($pfad), 0755, true);
@@ -56,12 +57,12 @@ class Stub
 
     public function saveAsConfig(string $fileName): void
     {
-        $this->save('config/' . $fileName . '.php');
+        $this->save('config/'.$fileName.'.php');
     }
 
     public function saveAsMigration(string $fileName): string
     {
-        $pfad = 'database/migrations/' . date('Y_m_d_His') . '_' . $fileName . '.php';
+        $pfad = 'database/migrations/'.date('Y_m_d_His').'_'.$fileName.'.php';
         $this->save($pfad);
 
         return $pfad;
@@ -69,7 +70,7 @@ class Stub
 
     public function saveAsSeeders(string $fileName): void
     {
-        $this->save('database/seeders/' . $fileName . '.php');
+        $this->save('database/seeders/'.$fileName.'.php');
     }
 
     public function saveAsController(string $fileName): void
@@ -78,7 +79,7 @@ class Stub
             $fileName .= 'Controller';
         }
 
-        $this->save('Controllers/' . ucfirst($fileName) . '.php');
+        $this->save('Controllers/'.ucfirst($fileName).'.php');
     }
 
     /**
@@ -86,7 +87,7 @@ class Stub
      */
     public function saveAsModel(string $fileName): void
     {
-        $this->save('Domain/Models/' . ucfirst($fileName) . '.php');
+        $this->save('Domain/Models/'.ucfirst($fileName).'.php');
     }
 
     /**
@@ -98,37 +99,37 @@ class Stub
             $fileName .= '.php';
         }
 
-        $this->save('Application/UseCases/' . $fileName);
+        $this->save('Application/UseCases/'.$fileName);
     }
 
     /**
      * Speichert einen Form Request in Requests/ (HTTP-Schicht).
      * Lädt den Stub vor jedem Aufruf neu, damit Store + Update unabhängig generiert werden.
      *
-     * @param string $action   Verb-Präfix für den Klassennamen, z.B. 'Store' oder 'Update'
-     * @param string $fileName Basisname ohne Präfix und ohne .php, z.B. 'Kunde'
+     * @param  string  $action  Verb-Präfix für den Klassennamen, z.B. 'Store' oder 'Update'
+     * @param  string  $fileName  Basisname ohne Präfix und ohne .php, z.B. 'Kunde'
      */
     public function saveAsRequest(string $action, string $fileName): void
     {
         // Frisch laden, damit mehrere Aufrufe (Store/Update) nicht interferieren
         $this->load('request');
 
-        $className = $action . ucfirst($fileName) . 'Request';
+        $className = $action.ucfirst($fileName).'Request';
 
         // DummyAction im Stub durch das konkrete Verb ersetzen, bevor replaceStub() greift
         $this->stub = str_replace('DummyAction', $action, $this->stub);
 
-        $this->save('Requests/' . $className . '.php');
+        $this->save('Requests/'.$className.'.php');
     }
 
     public function saveAsView(string $fileName): void
     {
-        $this->save('resources/views/' . $fileName . '.blade.php');
+        $this->save('resources/views/'.$fileName.'.blade.php');
     }
 
     public function saveAsRoute(string $fileName): void
     {
-        $this->save('routes/' . $fileName . '.php');
+        $this->save('routes/'.$fileName.'.php');
     }
 
     public function saveAsServiceProvider(string $fileName): void
@@ -137,17 +138,17 @@ class Stub
             $fileName .= 'ServiceProvider';
         }
 
-        $this->save(ucfirst($fileName) . '.php');
+        $this->save(ucfirst($fileName).'.php');
     }
 
     public function saveAsLivewire(string $fileName): void
     {
-        $this->save('Livewire/' . ucfirst($fileName) . '.php');
+        $this->save('Livewire/'.ucfirst($fileName).'.php');
     }
 
     public function saveAsLivewireView(string $fileName): void
     {
-        $this->save('resources/views/livewire/' . $fileName . '.blade.php');
+        $this->save('resources/views/livewire/'.$fileName.'.blade.php');
     }
 
     private function replaceStub(): void

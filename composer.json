@@ -8,16 +8,19 @@
         "laravel",
         "homepage"
     ],
-    "authors": [{
-        "name": "Jörg Hilbert",
-        "homepage": "https://www.it-hilbert.com",
-        "role": "Developer"
-    }],
+    "authors": [
+        {
+            "name": "Jörg Hilbert",
+            "homepage": "https://www.it-hilbert.com",
+            "role": "Developer"
+        }
+    ],
     "homepage": "https://www.it-hilbert.com",
     "minimum-stability": "stable",
     "require": {
-        "php": "^8.2",
-        "doctrine/dbal": "^3.6 || ^4.0"
+        "php": "^8.5",
+        "doctrine/dbal": "^3.6 || ^4.0",
+        "laravel/framework": "^12.0 || ^13.0"
     },
     "autoload": {
         "psr-4": {
@@ -26,7 +29,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "ITHilbert\\Module\\": "src/"
+            "ITHilbert\\Module\\Tests\\": "tests/"
         }
     },
     "extra": {
@@ -34,9 +37,11 @@
             "providers": [
                 "ITHilbert\\Module\\ModuleServiceProvider"
             ],
-            "aliases": {
-
-            }
+            "aliases": {}
         }
+    },
+    "require-dev": {
+        "orchestra/testbench": "^10.0 || ^11.0",
+        "phpunit/phpunit": "^11.5 || ^12.0"
     }
 }

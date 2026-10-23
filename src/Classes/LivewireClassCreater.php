@@ -2,8 +2,6 @@
 
 namespace ITHilbert\Module\Classes;
 
-use Illuminate\Support\Facades\Schema;
-
 class LivewireClassCreater{
 
     private string $modul;
@@ -14,12 +12,7 @@ class LivewireClassCreater{
 
     public function __construct(string $modul, string $class, string $modelName)
     {
-        $fields = Schema::getColumnListing((new $modelName)->getTable());
-        $types = [];
-        foreach ($fields as $field) {
-            $types[$field] = Schema::getColumnType((new $modelName)->getTable(), $field);
-        }
-        $this->types = $types;
+        $this->types = Feldart::typenFuerTabelle((new $modelName)->getTable());
         $this->model = strtolower(class_basename($modelName));
         $this->modelNamespaces = $modelName;
         $this->modul = ucfirst($modul);
@@ -93,41 +86,15 @@ class LivewireClassCreater{
     }
 
     public function getRule(string $name, string $type){
-        switch ($type) {
-            case 'id':
-                return $this->getRuleId($name);
-                break;
-            case 'bigint':
-                return $this->getRuleNumber($name);
-                break;
-            case 'integer':
-                return $this->getRuleNumber($name);
-                break;
-            case 'string':
-                return $this->getRuleText($name);
-                break;
-            case 'text':
-                return $this->getRuleText($name);
-                break;
-            case 'date':
-                return $this->getRuleDate($name);
-                break;
-            case 'datetime':
-                return $this->getRuleDatetime($name);
-                break;
-            case 'boolean':
-                return $this->getRuleBoolean($name);
-                break;
-            case 'decimal':
-                return $this->getRuleEuro($name);
-                break;
-            case 'euro':
-                return $this->getRuleEuro($name);
-                break;
-            default:
-                return $this->getRuleText($name);
-                break;
-        }
+        return match (Feldart::fuerTyp($type)) {
+            Feldart::Id => $this->getRuleId($name),
+            Feldart::Zahl => $this->getRuleNumber($name),
+            Feldart::Datum => $this->getRuleDate($name),
+            Feldart::Datumzeit => $this->getRuleDatetime($name),
+            Feldart::Boolean => $this->getRuleBoolean($name),
+            Feldart::Euro => $this->getRuleEuro($name),
+            Feldart::Text => $this->getRuleText($name),
+        };
     }
 
     public function getRuleId(string $name){
