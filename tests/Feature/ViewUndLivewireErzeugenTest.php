@@ -77,6 +77,50 @@ final class ViewUndLivewireErzeugenTest extends TestCase
         $this->assertStringContainsString('<label for="kunde_id">Kunde</label>', $inhalt);
     }
 
+    // Bugfix label_classes (Defekt: Generator las 'module.label' statt 'module.label_classes')
+    public function test_view_creater_setzt_label_classes_am_label(): void
+    {
+        config()->set('module.label_classes', 'form-label fw-bold');
+
+        $inhalt = (new ViewCreater(Beispiel::class))->getForm();
+
+        $this->assertStringContainsString('<label for="name" class="form-label fw-bold">', $inhalt);
+        $this->assertStringContainsString('<label for="kunde_id" class="form-label fw-bold">Kunde</label>', $inhalt);
+    }
+
+    // Bugfix label_classes (Regressionsschutz: leere Config ergibt Label ohne class)
+    public function test_view_creater_erzeugt_label_ohne_class_wenn_label_classes_leer(): void
+    {
+        config()->set('module.label_classes', '');
+
+        $inhalt = (new ViewCreater(Beispiel::class))->getForm();
+
+        $this->assertStringContainsString('<label for="name">', $inhalt);
+        $this->assertStringNotContainsString('<label for="name" class=', $inhalt);
+    }
+
+    // Bugfix label_classes
+    public function test_livewire_view_creater_setzt_label_classes_am_label(): void
+    {
+        config()->set('module.label_classes', 'form-label fw-bold');
+
+        $inhalt = (new LivewireViewCreater(Beispiel::class))->getForm();
+
+        $this->assertStringContainsString('<label for="name" class="form-label fw-bold">', $inhalt);
+        $this->assertStringContainsString('<label for="kunde_id" class="form-label fw-bold">Kunde</label>', $inhalt);
+    }
+
+    // Bugfix label_classes (Regressionsschutz: leere Config ergibt Label ohne class)
+    public function test_livewire_view_creater_erzeugt_label_ohne_class_wenn_label_classes_leer(): void
+    {
+        config()->set('module.label_classes', '');
+
+        $inhalt = (new LivewireViewCreater(Beispiel::class))->getForm();
+
+        $this->assertStringContainsString('<label for="name">', $inhalt);
+        $this->assertStringNotContainsString('<label for="name" class=', $inhalt);
+    }
+
     // Charakterisierung
     public function test_livewire_view_creater_erzeugt_formular(): void
     {
